@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JTable;
 import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
@@ -38,27 +39,30 @@ public class ManageStaff implements ActionListener,MenuListener{
     JTable result_container;
     DefaultTableModel tableModel;
     JScrollPane scroll_result;
-    JLabel newid, newname, newmobile, newisadmin, newdesignation, newpassword;
-    JTextField input_new_id, input_new_name, input_new_mobile, input_new_designation;
+    JLabel newid, newname, newmobile, newisadmin, newdesignation, newpassword, idorname;
+    JTextField input_new_id, input_new_name, input_new_mobile;
     JPasswordField input_new_password;
     JRadioButton rdb_yes, rdb_no;
+    JComboBox designation;
     ButtonGroup rdb_isadmin;
     JButton insert_new, delete_selected, show_result;
     ManageStaff()
     {
         newid = new JLabel("ID: ");
+        idorname = new JLabel("ID/Name");
         newname = new JLabel("Name:");
         newmobile = new JLabel("Mobile: ");
         newisadmin = new JLabel("Is Admin: ");
         newdesignation = new JLabel("Designation: ");
         newpassword = new JLabel("Password: ");
         newid.setFont(new Font("Ariel", Font.BOLD, 14));
+        idorname.setFont(new Font("Ariel", Font.BOLD, 14));
         newname.setFont(new Font("Ariel", Font.BOLD, 14));
         newmobile.setFont(new Font("Ariel", Font.BOLD, 14));
         newisadmin.setFont(new Font("Ariel", Font.BOLD, 14));
         newdesignation.setFont(new Font("Ariel", Font.BOLD, 14));
         newpassword.setFont(new Font("Ariel", Font.BOLD, 14));
-        
+        String[] designation_list = {"Junior", "Senior"};
         rdb_isadmin = new ButtonGroup();
         input_new_id = new JTextField();
         input_new_name = new JTextField();
@@ -67,14 +71,14 @@ public class ManageStaff implements ActionListener,MenuListener{
         rdb_no = new JRadioButton("No");
         rdb_isadmin.add(rdb_yes);
         rdb_isadmin.add(rdb_no);
-        input_new_designation = new JTextField();
+        designation = new JComboBox(designation_list);
         input_new_password = new JPasswordField();
         input_new_id.setFont(new Font("Ariel", Font.BOLD, 14));
         input_new_name.setFont(new Font("Ariel", Font.BOLD, 14));
         input_new_mobile.setFont(new Font("Ariel", Font.BOLD, 14));
         rdb_yes.setFont(new Font("Ariel", Font.BOLD, 14));
         rdb_no.setFont(new Font("Ariel", Font.BOLD, 14));
-        input_new_designation.setFont(new Font("Ariel", Font.BOLD, 14));
+        designation.setFont(new Font("Ariel", Font.BOLD, 14));
         input_new_password.setFont(new Font("Ariel", Font.BOLD, 14));
         
         insert_new = new JButton("Insert");
@@ -84,20 +88,7 @@ public class ManageStaff implements ActionListener,MenuListener{
         show_result= new JButton("Show");
         show_result.setFont(new Font("Ariel", Font.BOLD,14));
         
-        newid.setBounds(310, 15, 100, 20);
-        newname.setBounds(310, 45, 100, 20);
-        newmobile.setBounds(310, 105, 100, 20);
-        newisadmin.setBounds(310, 135, 100, 20);
-        newdesignation.setBounds(310, 165, 100, 20);
-        newpassword.setBounds(310, 195, 100, 20);
         
-        input_new_id.setBounds(450, 15, 150, 20);
-        input_new_name.setBounds(450, 45, 150, 20);
-        input_new_mobile.setBounds(450, 105, 150,20);
-        rdb_yes.setBounds(450, 135, 70, 20);
-        rdb_no.setBounds(530, 135, 60, 20);
-        input_new_designation.setBounds(450, 165, 150,20);
-        input_new_password.setBounds(450, 195, 150,20);
         
         insert_new.setBounds(430, 225, 100, 25);
         delete_selected.setBounds(400, 55, 150, 30);
@@ -132,6 +123,7 @@ public class ManageStaff implements ActionListener,MenuListener{
         scroll_result.setBounds(25, 300, 930, 400);
         
         newid.setVisible(false);
+        idorname.setVisible(false);
         newname.setVisible(false);
         newmobile.setVisible(false);
         newisadmin.setVisible(false);
@@ -142,7 +134,7 @@ public class ManageStaff implements ActionListener,MenuListener{
         input_new_mobile.setVisible(false);
         rdb_yes.setVisible(false);
         rdb_no.setVisible(false);
-        input_new_designation.setVisible(false);
+        designation.setVisible(false);
         input_new_password.setVisible(false);
         insert_new.setVisible(false);
         delete_selected.setVisible(false);
@@ -156,6 +148,7 @@ public class ManageStaff implements ActionListener,MenuListener{
         menuBar.add(delete);
         frame.add(scroll_result);
         frame.add(newid);
+        frame.add(idorname);
         frame.add(newname);
         frame.add(newmobile);
         frame.add(newisadmin);
@@ -166,7 +159,7 @@ public class ManageStaff implements ActionListener,MenuListener{
         frame.add(input_new_mobile);
         frame.add(rdb_yes);
         frame.add(rdb_no);
-        frame.add(input_new_designation);
+        frame.add(designation);
         frame.add(input_new_password);
         frame.add(insert_new);
         frame.add(delete_selected);
@@ -190,7 +183,6 @@ public class ManageStaff implements ActionListener,MenuListener{
                 frame.dispose();
             }
         });
-        show.setSelected(true);
         frame.setLayout(null);
         frame.setTitle("Library Management - Manage Staff");
         frame.setLocationRelativeTo(null);
@@ -244,7 +236,7 @@ public class ManageStaff implements ActionListener,MenuListener{
             String ID = input_new_id.getText();
             String Name = input_new_name.getText();
             String Mobile = input_new_mobile.getText();
-            String Designation = input_new_designation.getText();
+            String Designation = String.valueOf(designation.getSelectedItem());
             String Password = String.valueOf(input_new_password.getPassword());
             if(ID.contains("\"") || ID.contains("\'") || ID.contains("-") || ID.contains("#") || ID.contains(";") || ID.contains("&") || ID.contains("^") || ID.contains("(") || ID.contains(")"))
             {
@@ -264,7 +256,7 @@ public class ManageStaff implements ActionListener,MenuListener{
             else if(Designation.contains("\"") || Designation.contains("\'") || Designation.contains("-") || Designation.contains("#") || Designation.contains(";") || Designation.contains("&") || Designation.contains("^") || Designation.contains("(") || Designation.contains(")"))
             {
                 JOptionPane.showMessageDialog(null, "Invalid Characters in Designation");
-                input_new_designation.setText("");
+                designation.setSelectedIndex(0);
             }
             else if(Password.contains("\"") || Password.contains("\'") || Password.contains("-") || Password.contains("#") || Password.contains(";") || Password.contains("&") || Password.contains("^") || Password.contains("(") || Password.contains(")"))
             {
@@ -298,7 +290,7 @@ public class ManageStaff implements ActionListener,MenuListener{
             input_new_name.setText("");
             input_new_mobile.setText("");
             rdb_no.setSelected(true);
-            input_new_designation.setText("");
+            designation.setSelectedIndex(0);
             input_new_password.setText("");
         }
         
@@ -324,24 +316,26 @@ public class ManageStaff implements ActionListener,MenuListener{
         if(me.getSource() == show)
         {
             scroll_result.setBounds(25, 100, 930, 400);
-            newid.setVisible(true);
-            newname.setVisible(true);
+            newid.setVisible(false);
+            idorname.setVisible(true);
+            newname.setVisible(false);
             newmobile.setVisible(false);
             newisadmin.setVisible(false);
             newdesignation.setVisible(false);
             newpassword.setVisible(false);
             input_new_id.setVisible(true);
-            input_new_name.setVisible(true);
+            input_new_name.setVisible(false);
             input_new_mobile.setVisible(false);
             rdb_yes.setVisible(false);
             rdb_no.setVisible(false);
-            input_new_designation.setVisible(false);
+            designation.setVisible(false);
             input_new_password.setVisible(false);
             insert_new.setVisible(false);
             delete_selected.setVisible(false);
             show_result.setVisible(true);
             
             tableModel.setRowCount(0);
+            idorname.setBounds(310, 15, 100, 20);
             
             show.setSelected(true);
             insert.setSelected(false);
@@ -370,11 +364,26 @@ public class ManageStaff implements ActionListener,MenuListener{
             input_new_mobile.setVisible(true);
             rdb_yes.setVisible(true);
             rdb_no.setVisible(true);
-            input_new_designation.setVisible(true);
+            designation.setVisible(true);
             input_new_password.setVisible(true);
             insert_new.setVisible(true);
             delete_selected.setVisible(false);
             
+            newid.setBounds(310, 15, 100, 20);
+            newname.setBounds(310, 45, 100, 20);
+            newmobile.setBounds(310, 105, 100, 20);
+            newisadmin.setBounds(310, 135, 100, 20);
+            newdesignation.setBounds(310, 165, 100, 20);
+            newpassword.setBounds(310, 195, 100, 20);
+        
+            input_new_id.setBounds(450, 15, 150, 20);
+            input_new_name.setBounds(450, 45, 150, 20);
+            input_new_mobile.setBounds(450, 105, 150,20);
+            rdb_yes.setBounds(450, 135, 70, 20);
+            rdb_no.setBounds(530, 135, 60, 20);
+            designation.setBounds(450, 165, 150,20);
+            input_new_password.setBounds(450, 195, 150,20);
+        
             input_new_id.grabFocus();
         }
         else if(me.getSource() == update)
@@ -392,7 +401,7 @@ public class ManageStaff implements ActionListener,MenuListener{
             input_new_mobile.setVisible(false);
             rdb_yes.setVisible(false);
             rdb_no.setVisible(false);
-            input_new_designation.setVisible(false);
+            designation.setVisible(false);
             input_new_password.setVisible(false);
             insert_new.setVisible(false);
             delete_selected.setVisible(false);
@@ -419,7 +428,7 @@ public class ManageStaff implements ActionListener,MenuListener{
             input_new_mobile.setVisible(false);
             rdb_yes.setVisible(false);
             rdb_no.setVisible(false);
-            input_new_designation.setVisible(false);
+            designation.setVisible(false);
             input_new_password.setVisible(false);
             insert_new.setVisible(false);
             delete_selected.setVisible(true);
